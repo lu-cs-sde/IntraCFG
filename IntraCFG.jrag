@@ -1,0 +1,60 @@
+aspect IntraCFG {
+public
+  interface CFGSupport {}
+
+public
+  interface CFGNode extends CFGSupport {}
+
+public
+  interface CFGRoot {}
+
+  Entry implements CFGNode;
+  Exit implements CFGNode;
+
+  syn SmallSet<CFGNode> CFGSupport.firstNodes() = SmallSet.<CFGNode>empty();
+  eq CFGNode.firstNodes() = SmallSet.<CFGNode>singleton(this);
+  syn SmallSet<CFGNode> CFGNode.succ()  = nextNodes();
+  inh SmallSet<CFGNode> CFGSupport.nextNodes();
+  inh SmallSet<CFGNode> CFGSupport.nextNodesTT();
+  inh SmallSet<CFGNode> CFGSupport.nextNodesFF();
+
+  // Defining Entry and Exit point for each CFGRoot
+  syn nta Entry CFGRoot.entry() = new Entry();
+  syn nta Exit CFGRoot.exit() = new Exit();
+
+  // Forwarding the exit() and entry() attribute to each CFGSupport node.
+  eq CFGRoot.getChild().exit() = exit();
+  eq CFGRoot.getChild().entry() = entry();
+
+  inh Exit CFGNode.exit();
+  inh Entry CFGNode.entry();
+
+  // Default values for the
+  eq CFGRoot.getChild().nextNodes() = SmallSet.<CFGNode>empty();
+  eq CFGRoot.getChild().nextNodesTT() = SmallSet.<CFGNode>empty();
+  eq CFGRoot.getChild().nextNodesFF() = SmallSet.<CFGNode>empty();
+
+  // Predecessor relation
+  syn SmallSet<CFGNode> CFGNode.pred() {
+    SmallSet<CFGNode> res = SmallSet.<CFGNode>empty().mutable();
+    for (CFGNode pred : predColl()) {
+      if (pred.isCFGNode())
+        res.add(pred);
+    }
+    return res;
+  }
+
+  syn boolean CFGNode.isCFGNode() circular[false] {
+    if (predColl().isEmpty())
+      return false;
+    for (CFGNode pred : predColl()) {
+      if (pred.isCFGNode())
+        return true;
+    }
+    return false;
+  }
+  eq Entry.isCFGNode() = true;
+
+  coll SmallSet<CFGNode> CFGNode.predColl()[new SmallSet<CFGNode>()];
+  CFGNode contributes this to CFGNode.predColl() for each succ();
+}
