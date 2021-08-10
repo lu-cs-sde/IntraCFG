@@ -359,7 +359,7 @@ boolean subsetOf(SmallSet that) {
 }
 ;
 
-protected
+public
 SmallSet() {}
 
 public
