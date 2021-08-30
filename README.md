@@ -39,8 +39,6 @@ EQOp implements CFGNode;
 eq EQOp.firstNodes() = getLeft().firstNodes();
 eq EQOp.getLeft().nextNodes() = getRight().firstNodes();
 eq EQOp.getRight().nextNodes() = SmallSet<CFGNode>.singleton(this);
-
-
 ```
 
 ## **IntraJ**: an application of the **IntraCFG** framework
