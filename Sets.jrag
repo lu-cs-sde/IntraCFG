@@ -495,7 +495,6 @@ String toStringCFGNode() {
 
 aspect SetSettings {
   inh BitSet CFGNode.emptyBitSet();
-  inh BitSet Expr.emptyBitSet();
   eq Program.getChild().emptyBitSet() { throw new RuntimeException(); }
   eq ClassDecl.getBodyDecl(int i).emptyBitSet() {
     BodyDecl current = getBodyDecl(i);
