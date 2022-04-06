@@ -40,12 +40,12 @@ public
   Exit implements CFGNode;
 
   syn SmallSet<CFGNode> CFGNode.firstNodes() = dynamicFN();
-  syn lazy SmallSet<CFGNode> CFGNode.succ() = nextNodes();
+  syn lazy SmallSet<CFGNode> CFGNode.succ()
+      circular[SmallSet.<CFGNode>empty()] = nextNodes();
   syn lazy SmallSet<CFGNode> CFGNode.dynamicFN() =
       isAnalysisNode() ? SmallSet.<CFGNode>singleton(this) : succ();
   inh SmallSet<CFGNode> CFGNode.nextNodes();
-  inh SmallSet<CFGNode> CFGNode.nextNodesTT()
-      circular[SmallSet.<CFGNode>empty()];
+  inh SmallSet<CFGNode> CFGNode.nextNodesTT();
   inh SmallSet<CFGNode> CFGNode.nextNodesFF();
   syn lazy boolean CFGNode.isAnalysisNode() =
       Analysis.getAnalysisInstance().getActiveNodes().contains(
