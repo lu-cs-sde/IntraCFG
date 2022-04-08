@@ -504,6 +504,7 @@ aspect SetSettings {
       return instanceInitialization().emptyBitSet();
     }
   }
+  eq InstanceInitialization.entry().emptyBitSet() { return emptyBitSet(); }
   eq CFGRoot.getChild().emptyBitSet() = emptyBitSet();
   syn BitSet CFGRoot.emptyBitSet() = new BitSet();
 }
