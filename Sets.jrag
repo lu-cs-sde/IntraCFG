@@ -497,14 +497,14 @@ aspect SetSettings {
   inh BitSet CFGNode.emptyBitSet();
   inh BitSet Expr.emptyBitSet();
   eq Program.getChild().emptyBitSet() { throw new RuntimeException(); }
-  eq ClassDecl.getBodyDecl(int i).emptyBitSet() {
-    BodyDecl current = getBodyDecl(i);
-    if (current.isStaticInit()) {
-      return staticInitialization().emptyBitSet();
-    } else {
-      return instanceInitialization().emptyBitSet();
-    }
-  }
+  // eq ClassDecl.getBodyDecl(int i).emptyBitSet() {
+  //   BodyDecl current = getBodyDecl(i);
+  //   if (current.isStaticInit()) {
+  //     return staticInitialization().emptyBitSet();
+  //   } else {
+  //     return instanceInitialization().emptyBitSet();
+  //   }
+  // }
   eq CFGRoot.getChild().emptyBitSet() = emptyBitSet();
   syn BitSet CFGRoot.emptyBitSet() = new BitSet();
 }
